@@ -13,11 +13,7 @@
 # limitations under the License.
 
 from typing import TYPE_CHECKING, Optional, Tuple, Union
-
-if TYPE_CHECKING:  # https://github.com/python/mypy/issues/6239
-    from dataclasses import dataclass
-else:
-    from flax.struct import dataclass
+import jax_dataclasses as jdc 
 
 import chex
 import jax
@@ -27,13 +23,13 @@ from flax import struct
 from jax import Array
 
 
-@dataclass
+@jdc.pytree_dataclass
 class SumTreeState:
     nodes: Array
     max_recorded_priority: Array
-    tree_depth: int = struct.field(pytree_node=False)
-    capacity: int = struct.field(pytree_node=False)
-    dtype: jnp.dtype = struct.field(pytree_node=False)
+    tree_depth: jdc.Static[int] 
+    capacity: jdc.Static[int] 
+    dtype: jdc.Static[jnp.dtype]
 
 
 def get_tree_depth(capacity: int) -> int:
