@@ -31,7 +31,7 @@
 import dataclasses
 import functools
 from collections.abc import Callable
-from typing import TypeVar, overload
+from typing import TypeVar, Union, overload
 
 import jax
 from typing_extensions import dataclass_transform  # pytype: disable=not-supported-yet
@@ -59,9 +59,9 @@ def dataclass(**kwargs) -> Callable[[_T], _T]:
 
 @dataclass_transform(field_specifiers=(field,))  # type: ignore[literal-required]
 def dataclass(
-    clz: _T | None = None,
+    clz: Union[_T, None] = None,
     **kwargs,
-) -> _T | Callable[[_T], _T]:
+) -> Union[_T, Callable[[_T], _T]]:
     """Create a class which can be passed to functional transformations.
 
     .. note::
