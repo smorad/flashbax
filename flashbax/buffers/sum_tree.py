@@ -12,24 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import TYPE_CHECKING, Optional, Tuple, Union
-import jax_dataclasses as jdc 
+from typing import Optional, Tuple, Union
 
 import chex
 import jax
 import jax.numpy as jnp
 import numpy as np
-from flax import struct
 from jax import Array
 
+from flashbax.dataclass import dataclass, field
 
-@jdc.pytree_dataclass
+
+@dataclass
 class SumTreeState:
     nodes: Array
     max_recorded_priority: Array
-    tree_depth: jdc.Static[int] 
-    capacity: jdc.Static[int] 
-    dtype: jdc.Static[jnp.dtype]
+    tree_depth: int = field(pytree_node=False)
+    capacity: int = field(pytree_node=False)
+    dtype: jnp.dtype = field(pytree_node=False)
 
 
 def get_tree_depth(capacity: int) -> int:
